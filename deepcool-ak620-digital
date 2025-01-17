@@ -70,39 +70,35 @@ def get_utils():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Python script to control Deepcool AK620 and AK500S CPU coolers on Linux"
+        description="Python script to control Deepcool AK620 and AK500S CPU coolers on Linux",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--product",
         type=str,
         default="ak620",
         help="Either ak620 or ak500s",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--sensor",
         type=str,
         default="k10temp",
         help="Hardware temperature sensor label",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--show_temp",
         default=True,
         action=argparse.BooleanOptionalAction,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--show_util",
         default=True,
         action=argparse.BooleanOptionalAction,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--interval",
         type=int,
         default=2,
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     args = parser.parse_args()
     product_id = {"ak620": 0x0002, "ak500s": 0x0004}.get(args.product, 0x0002)
