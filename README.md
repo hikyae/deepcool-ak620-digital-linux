@@ -46,6 +46,7 @@ yay -S deepcool-ak620-digital-linux-git
 
 1. **Run the Setup Script**: The `setup.sh` script will install the script and systemd service files. Run the script by executing:
     ```sh
+    chmod +x setup.sh
     ./setup.sh
     ```
 
@@ -72,7 +73,7 @@ yay -S deepcool-ak620-digital-linux-git
 
 1. **Reload the daemon and enable and start the services**
     ```sh
-    sudo systemctl reload-daemon
+    sudo systemctl daemon-reload
     sudo systemctl enable --now deepcool-ak620-digital.service
     sudo systemctl enable --now deepcool-ak620-digital-restart.service
     ```
