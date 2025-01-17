@@ -57,7 +57,15 @@ yay -S deepcool-ak620-digital-linux-git
     print(psutil.sensors_temperatures().keys())
     ```
 
-1. **Edit the service file**: Edit ExecStart part in `/usr/lib/systemd/system/deepcool-ak620-digital.service` file to configure the service:
+1. **Edit the service file**: Edit ExecStart part in the drop-in file (`/etc/systemd/system/deepcool-ak620-digital.service.d/override.conf`) to configure the service by executing `sudo systemctl edit deepcool-ak620-digital.service`:
+    Example:
+    ```sh:/etc/systemd/system/deepcool-ak620-digital.service.d/override.conf
+    [Service]
+    ExecStart=
+    ExecStart=/usr/bin/deepcool-ak620-digital --product ak500s --no-show-util --interval 3
+    ```
+
+    Command-line arguments are shown by executing `deepcool-ak620-digital -h`
 
     By default the default arguments are as follows:
     - --product: ak620
@@ -66,14 +74,8 @@ yay -S deepcool-ak620-digital-linux-git
     - --show-util: True
     - --interval: 2
 
-    Example:
-    ```sh:/usr/lib/systemd/system/deepcool-ak620-digital.service
-    ExecStart=/usr/bin/deepcool-ak620-digital --product ak620 --sensor k10temp --show-temp --no-show-util --interval 1
-    ```
-
-1. **Reload the daemon and enable and start the services**
+1. **Enable and start the services**
     ```sh
-    sudo systemctl daemon-reload
     sudo systemctl enable --now deepcool-ak620-digital.service
     sudo systemctl enable --now deepcool-ak620-digital-restart.service
     ```
