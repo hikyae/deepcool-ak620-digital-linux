@@ -89,13 +89,13 @@ if __name__ == "__main__":
         "--show-temp",
         default=True,
         action=argparse.BooleanOptionalAction,
-        help="Show temperature",
+        help="Show CPU temperature",
     )
     parser.add_argument(
         "--show-util",
         default=True,
         action=argparse.BooleanOptionalAction,
-        help="Show util",
+        help="Show CPU utilization",
     )
     parser.add_argument(
         "--interval",
