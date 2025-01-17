@@ -30,7 +30,7 @@ makepkg -si
 ```
 
 ### Step-by-Step Guide
-You can skip this step if you have installed the package from AUR.
+You can skip these steps if you have installed the package from AUR.
 
 1. **Install Python Dependencies**: First, you need to install the necessary Python libraries, `hidapi` and `psutil`. These libraries allow the script to interact with the hardware and monitor system resources.
 
