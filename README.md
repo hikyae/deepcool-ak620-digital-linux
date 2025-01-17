@@ -82,7 +82,13 @@ yay -S deepcool-ak620-digital-linux-git
 
 1) If you encounter any errors related to HIDAPI or psutil, ensure that the dependencies are installed correctly by running the setup.sh script.
 2) Make sure the AK620 digital air cooler is properly connected to your system and that the correct Vendor ID and Product ID are set in the script.
-3) How to verify Product ID and Vendor ID?  Use lsusb -v to get the list of devices ans search for your cooler.
+3) How to verify Product ID and Vendor ID?  Use lsusb -v to get the list of devices and search for your cooler.
+```sh
+lsusb -v | less
+...
+Bus 001 Device 005: ID 3633:0002 DeepCool AK620-DIGITAL
+...
+```
 
 Credits
 https://github.com/Algorithm0/deepcool-digital-info
