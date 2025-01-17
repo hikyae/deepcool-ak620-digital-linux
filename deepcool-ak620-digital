@@ -89,16 +89,19 @@ if __name__ == "__main__":
         "--show_temp",
         default=True,
         action=argparse.BooleanOptionalAction,
+        help="Show temperature",
     )
     parser.add_argument(
         "--show_util",
         default=True,
         action=argparse.BooleanOptionalAction,
+        help="Show util",
     )
     parser.add_argument(
         "--interval",
         type=int,
         default=2,
+        help="Update interval in seconds",
     )
     args = parser.parse_args()
     product_id = {"ak620": 0x0002, "ak500s": 0x0004}.get(args.product, 0x0002)
