@@ -86,13 +86,13 @@ if __name__ == "__main__":
         help="Hardware temperature sensor label",
     )
     parser.add_argument(
-        "--show_temp",
+        "--show-temp",
         default=True,
         action=argparse.BooleanOptionalAction,
         help="Show temperature",
     )
     parser.add_argument(
-        "--show_util",
+        "--show-util",
         default=True,
         action=argparse.BooleanOptionalAction,
         help="Show util",
