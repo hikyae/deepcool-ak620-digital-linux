@@ -15,17 +15,24 @@ Available supported models:
 
 ## Installation
 ### AUR
-[AUR repository](https://aur.archlinux.org/packages/deepcool-ak620-digital-linux-git) is available. You can use AUR helper to install if you use Arch Linux.
+[AUR](https://aur.archlinux.org/packages/deepcool-ak620-digital-linux-git) is available. You can use AUR helper or makepkg to install if you use Arch Linux.
 
-Example:
+Using AUR helper:
 ```sh
 yay -S deepcool-ak620-digital-linux-git
 ```
 
-### Step-by-Step Guide
-1. **Install Python Dependencies**: First, you need to install the necessary Python libraries, `hidapi` and `psutil`. These libraries allow the script to interact with the hardware and monitor system resources.
+Using makepkg:
+```sh
+git clone https://aur.archlinux.org/deepcool-ak620-digital-linux-git.git
+cd deepcool-ak620-digital-linux-git
+makepkg -si
+```
 
-    You can skip this step if you have installed the package using AUR helper.
+### Step-by-Step Guide
+You can skip this step if you have installed the package from AUR.
+
+1. **Install Python Dependencies**: First, you need to install the necessary Python libraries, `hidapi` and `psutil`. These libraries allow the script to interact with the hardware and monitor system resources.
 
     Open a terminal and run the following commands:
     ```sh
