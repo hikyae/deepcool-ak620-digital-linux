@@ -1,10 +1,10 @@
 [Unit]
-Description=Displaying the current temperature and utilization on the Deepcool AK Series CPU cooler
+Description=Displaying the current temperature and utilization on the Deepcool AK620 and AK500S CPU cooler
 
 [Service]
 Type=simple
 User=root
-ExecStart= /usr/bin/python /usr/bin/deepcool-ak-series-digital.py
+ExecStart=/usr/bin/deepcool-ak620-digital
 Restart=always
 
 [Install]

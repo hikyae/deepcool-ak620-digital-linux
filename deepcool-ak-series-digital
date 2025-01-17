@@ -1,0 +1,128 @@
+#!/bin/env python3
+
+import argparse
+import time
+
+import hid
+import psutil
+
+VENDOR_ID = 0x3633  # DeepCool's Vendor ID
+
+
+def get_bar_value(input_value):
+    return (input_value - 1) // 10 + 1
+
+
+def get_data(value=0, mode="util"):
+    base_data = [16] + [0 for i in range(64 - 1)]
+    numbers = [int(char) for char in str(value)]
+    base_data[2] = get_bar_value(value)
+    if mode == "util":
+        base_data[1] = 76
+    elif mode == "start":
+        base_data[1] = 170
+        return base_data
+    elif mode == "temp":
+        base_data[1] = 19
+
+    if len(numbers) == 1:
+        base_data[5] = numbers[0]
+    elif len(numbers) == 2:
+        base_data[4] = numbers[0]
+        base_data[5] = numbers[1]
+    elif len(numbers) == 3:
+        base_data[3] = numbers[0]
+        base_data[4] = numbers[1]
+        base_data[5] = numbers[2]
+    elif len(numbers) == 4:
+        base_data[3] = numbers[0]
+        base_data[4] = numbers[1]
+        base_data[5] = numbers[2]
+        base_data[6] = numbers[3]
+
+    return base_data
+
+
+def get_cpu_temperature(label="CPU"):
+    sensors = psutil.sensors_temperatures()
+    for sensor_label, sensor_list in sensors.items():
+        for sensor in sensor_list:
+            if sensor.label == label:
+                return sensor.current
+
+    return 0
+
+
+def get_temperature(sensor):
+    try:
+        temp = round(psutil.sensors_temperatures()[sensor][0].current)
+    except KeyError:
+        print("Sensor does not exist in the system.")
+        temp = get_cpu_temperature()
+
+    return get_data(value=temp, mode="temp")
+
+
+def get_utils():
+    utils = round(psutil.cpu_percent())
+    return get_data(value=utils, mode="util")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Python script to control Deepcool AK620 and AK500S CPU coolers on Linux"
+    )
+    parser.add_argument(
+        "--product",
+        type=str,
+        default="ak620",
+        help="Either ak620 or ak500s",
+    )
+    parser.add_argument(
+        "--sensor",
+        type=str,
+        default="k10temp",
+        help="Hardware temperature sensor label",
+    )
+    parser.add_argument(
+        "--show_temp",
+        default=True,
+        action=argparse.BooleanOptionalAction,
+    )
+    parser.add_argument(
+        "--show_util",
+        default=True,
+        action=argparse.BooleanOptionalAction,
+    )
+    parser.add_argument(
+        "--interval",
+        type=int,
+        default=2,
+    )
+    args = parser.parse_args()
+    product_id = {"ak620": 0x0002, "ak500s": 0x0004}.get(args.product, 0x0002)
+
+    try:
+        h = hid.device()
+        h.open(VENDOR_ID, product_id)
+        h.set_nonblocking(1)
+        h.write(get_data(mode="start"))
+        while True:
+            h.set_nonblocking(1)
+            if args.show_temp:
+                h.write(get_temperature(args.sensor))
+                time.sleep(args.interval)
+
+            if args.show_util:
+                h.write(get_utils())
+                time.sleep(args.interval)
+    except IOError as error:
+        print(error)
+        print(
+            "Ensure that the AK Series CPU cooler is connected and the script has the correct Vendor ID and Product ID."
+        )
+    except KeyboardInterrupt:
+        print("Script terminated by user.")
+    finally:
+        if "h" in locals():
+            h.close()
