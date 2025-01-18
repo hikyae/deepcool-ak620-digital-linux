@@ -1,5 +1,5 @@
 [Unit]
-Description=Displaying the current temperature and utilization on the Deepcool AK620 and AK500S CPU cooler
+Description=Displaying the current temperature and utilization on the DeepCool AK620 and AK500S CPU cooler
 
 [Service]
 Type=simple
